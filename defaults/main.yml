@@ -4,3 +4,19 @@ ufw_whitelisted_ipv4_addresses: [ ]
 ufw_whitelisted_ipv6_addresses: [ ]
 ufw_whitelisted_ports:
   -  { port: 22,  protocol: tcp }
+  {% if inventory_hostname in groups["rabbitmq-servers"]}
+  -  { port: 4369, protocol: tcp }
+  -  { port: 5672, protocol: tcp }
+  -  { port: 15672, protocol: tcp }
+  -  { port: 55672, protocol: tcp }
+  -  { port: 45001, protocol: tcp }
+  -  { port: 45002, protocol: tcp }
+  {% endif % }
+  {% if inventory_hostname in groups["nginx-servers"]}
+  - { port: 80, protocol: tcp }
+  - { port: 443, protocol: tcp }
+  {% endif % }
+  {% if inventory_hostname in groups["mongodb-servers"]}
+  # placeholder - { port: xx, protocol: udp}
+  {% endif %}
+
